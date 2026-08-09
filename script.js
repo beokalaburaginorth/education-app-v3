@@ -1277,16 +1277,16 @@ window.showDISESearch = async function () {
 // SEARCH SCHOOL BY DISE
 // ======================================
 
+// ======================================
+// SEARCH ALL SCHOOLS BY DISE
+// ======================================
+
 window.searchSchoolByDISE = async function () {
 
-  const input =
-    document.getElementById("diseSearchInput");
+  const input = document.getElementById("diseSearchInput");
+  const result = document.getElementById("diseSearchResult");
 
-  const result =
-    document.getElementById("diseSearchResult");
-
-  const dise =
-    input.value.trim();
+  const dise = input.value.trim();
 
   if (!dise) {
     result.innerHTML = `
@@ -1312,48 +1312,57 @@ window.searchSchoolByDISE = async function () {
 
   result.innerHTML = `
     <div class="card">
-      <p>🔄 Searching school...</p>
+      <p>🔄 Searching schools...</p>
     </div>
   `;
 
   try {
 
-    const snapshot =
-      await getDocs(
-        collection(db, "schools")
-      );
+    const snapshot = await getDocs(
+      collection(db, "schools")
+    );
 
-    let foundSchool = null;
+    // ALL matching schools
+    const foundSchools = [];
 
     snapshot.forEach((docSnap) => {
 
       const data = docSnap.data();
 
-    const schoolDise =
-  data.diseNumber ||
-  data.dise ||
-  data.diseCode ||
-  data.udise ||
-  data.udiseCode ||
-  data["DISE"] ||
-  data["DISE CODE"] ||
-  data["DISE Code"] ||
-  "";
+      const schoolDise =
+        data.diseNumber ||
+        data.dise ||
+        data.diseCode ||
+        data.udise ||
+        data.udiseCode ||
+        data["DISE"] ||
+        data["DISE CODE"] ||
+        data["DISE Code"] ||
+        "";
 
-if (String(schoolDise).trim() === dise) {
-  foundSchool = {
-    id: docSnap.id,
-    data: data
-  };
-}
-});
+      if (String(schoolDise).trim() === dise) {
 
+        foundSchools.push({
+          id: docSnap.id,
+          data: data
+        });
 
-    if (!foundSchool) {
+      }
+
+    });
+
+    // ======================================
+    // NO SCHOOL FOUND
+    // ======================================
+
+    if (foundSchools.length === 0) {
 
       result.innerHTML = `
         <div class="card">
-          <h3>❌ School Not Found</h3>
+          <h3 style="color:red;">
+            ❌ School Not Found
+          </h3>
+
           <p>
             DISE Code:
             <b>${dise}</b>
@@ -1364,80 +1373,113 @@ if (String(schoolDise).trim() === dise) {
       return;
     }
 
-    const data = foundSchool.data;
 
-    const schoolName =
-      data.schoolName ||
-      data.school ||
-      data["SCHOOL NAME"] ||
-      data["School Name"] ||
-      data.name ||
-      "School";
+    // ======================================
+    // SHOW ALL SCHOOLS
+    // ======================================
 
-    const cluster =
-      data.clusterName ||
-      data.cluster ||
-      data["CLUSTER NAME"] ||
-      data["Cluster Name"] ||
-      data.CLUSTER ||
-      "-";
-
-    const management =
-      data.management ||
-      data.schoolType ||
-      data.type ||
-      data["MANAGEMENT"] ||
-      data["Management"] ||
-      data["SCHOOL TYPE"] ||
-      "-";
-
-    result.innerHTML = `
-
+    let html = `
       <div style="
-        background:white;
-        border-radius:12px;
-        padding:18px;
-        box-shadow:0 2px 10px rgba(0,0,0,0.12);
-        border-left:5px solid #0047a1;
+        margin-bottom:15px;
+        padding:12px;
+        background:#e8f1ff;
+        border-radius:8px;
       ">
+        <h3 style="margin:0;color:#0047a1;">
+          🏫 ${foundSchools.length} School(s) Found
+        </h3>
 
-        <h2 style="color:#0047a1;">
-          🏫 ${schoolName}
-        </h2>
-
-        <p>
-          <b>DISE Code:</b>
-          ${dise}
+        <p style="margin:5px 0 0;">
+          <b>DISE Code:</b> ${dise}
         </p>
-
-        <p>
-          <b>Cluster:</b>
-          ${cluster}
-        </p>
-
-        <p>
-          <b>Management:</b>
-          ${management}
-        </p>
-
-        <button
-          onclick="showSelectedSchool('${foundSchool.id}')"
-          style="
-            background:#0047a1;
-            color:white;
-            border:none;
-            padding:11px 18px;
-            border-radius:8px;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          🏫 Open School
-        </button>
-
       </div>
-
     `;
+
+
+    foundSchools.forEach((school, index) => {
+
+      const data = school.data;
+
+      const schoolName =
+        data.schoolName ||
+        data.school ||
+        data["SCHOOL NAME"] ||
+        data["School Name"] ||
+        data.name ||
+        "School";
+
+      const cluster =
+        data.cluster ||
+        data.clusterName ||
+        data["CLUSTER NAME"] ||
+        data["Cluster Name"] ||
+        data.CLUSTER ||
+        "-";
+
+      const management =
+        data.management ||
+        data.schoolType ||
+        data.type ||
+        data["MANAGEMENT"] ||
+        data["Management"] ||
+        data["SCHOOL TYPE"] ||
+        "-";
+
+
+      html += `
+
+        <div style="
+          background:white;
+          border-radius:12px;
+          padding:18px;
+          margin-bottom:15px;
+          box-shadow:0 2px 10px rgba(0,0,0,0.12);
+          border-left:5px solid #0047a1;
+        ">
+
+          <h2 style="
+            color:#0047a1;
+            margin-top:0;
+          ">
+            🏫 ${index + 1}. ${schoolName}
+          </h2>
+
+          <p>
+            <b>DISE Code:</b> ${dise}
+          </p>
+
+          <p>
+            <b>Cluster:</b> ${cluster}
+          </p>
+
+          <p>
+            <b>Management:</b> ${management}
+          </p>
+
+          <button
+            onclick="showSelectedSchool('${school.id}')"
+            style="
+              background:#0047a1;
+              color:white;
+              border:none;
+              padding:11px 18px;
+              border-radius:8px;
+              font-weight:bold;
+              cursor:pointer;
+            "
+          >
+            🏫 Open School
+          </button>
+
+        </div>
+
+      `;
+
+    });
+
+
+    result.innerHTML = html;
+
 
   } catch (error) {
 
@@ -1448,6 +1490,7 @@ if (String(schoolDise).trim() === dise) {
 
     result.innerHTML = `
       <div class="card">
+
         <h3 style="color:red;">
           ❌ Search Error
         </h3>
@@ -1455,10 +1498,10 @@ if (String(schoolDise).trim() === dise) {
         <p>
           ${error.message}
         </p>
+
       </div>
     `;
 
   }
 
 };
-
