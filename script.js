@@ -603,7 +603,7 @@ window.showGallery = async function () {
 
 
   try {
-
+window.galleryImages = [];
     const galleryRef =
       collection(db, "gallery");
 
@@ -1571,3 +1571,43 @@ window.showBEOProfile = function () {
         </div>
     `;
 };
+// GALLERY IMAGE FULL SCREEN
+document.addEventListener("click", function(e) {
+
+    if (e.target.tagName === "IMG" &&
+        e.target.closest(".card")) {
+
+        const img = e.target;
+
+        const overlay = document.createElement("div");
+
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100%";
+        overlay.style.height = "100%";
+        overlay.style.background = "rgba(0,0,0,0.9)";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.zIndex = "99999";
+        overlay.style.cursor = "pointer";
+
+        const bigImg = document.createElement("img");
+
+        bigImg.src = img.src;
+        bigImg.alt = img.alt;
+
+        bigImg.style.maxWidth = "95%";
+        bigImg.style.maxHeight = "90%";
+        bigImg.style.objectFit = "contain";
+        bigImg.style.borderRadius = "10px";
+
+        overlay.appendChild(bigImg);
+        document.body.appendChild(overlay);
+
+        overlay.onclick = function() {
+            overlay.remove();
+        };
+    }
+});
