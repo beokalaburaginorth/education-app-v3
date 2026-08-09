@@ -86,7 +86,13 @@ schoolsSnap.forEach((docSnap) => {
                    management.includes("govt");
 
     const isAided = management.includes("aided");
+if (isGovt) {
+    stats.govtSchools++;
+}
 
+if (isAided) {
+    stats.aidedSchools++;
+}
     const isPrimary = schoolType.includes("primary") ||
                       schoolType.includes("lower");
 
