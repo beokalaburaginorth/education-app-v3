@@ -44,34 +44,69 @@ window.showHome = async function () {
 
   try {
 
-    const dashboardRef =
-      doc(db, "dashboard", "statistics");
+    const schoolsSnap = await getDocs(
+    collection(db, "schools")
+);
 
-    const dashboardSnap =
-      await getDoc(dashboardRef);
+let stats = {
+    govtPrimarySchools: 0,
+    govtHighSchools: 0,
+    aidedPrimarySchools: 0,
+    aidedHighSchools: 0,
 
-    let stats = {
+    govtPrimaryTeachers: 0,
+    govtHighTeachers: 0,
+    aidedPrimaryTeachers: 0,
+    aidedHighTeachers: 0
+};
 
-      govtPrimarySchools: 0,
-      govtHighSchools: 0,
-      aidedPrimarySchools: 0,
-      aidedHighSchools: 0,
+schoolsSnap.forEach((docSnap) => {
 
-      govtPrimaryTeachers: 0,
-      govtHighTeachers: 0,
-      aidedPrimaryTeachers: 0,
-      aidedHighTeachers: 0
+    const data = docSnap.data();
 
-    };
+    const management = String(
+        data.management ||
+        data.MANAGEMENT ||
+        data["Management"] ||
+        ""
+    ).toLowerCase();
 
-    if (dashboardSnap.exists()) {
+    const schoolType = String(
+        data.schoolType ||
+        data.type ||
+        data["SCHOOL TYPE"] ||
+        data["School Type"] ||
+        ""
+    ).toLowerCase();
 
-      stats = {
-        ...stats,
-        ...dashboardSnap.data()
-      };
+    const isGovt = management.includes("government") ||
+                   management.includes("govt");
 
+    const isAided = management.includes("aided");
+
+    const isPrimary = schoolType.includes("primary") ||
+                      schoolType.includes("lower");
+
+    const isHigh = schoolType.includes("high") ||
+                   schoolType.includes("secondary");
+
+    if (isGovt && isPrimary) {
+        stats.govtPrimarySchools++;
     }
+
+    if (isGovt && isHigh) {
+        stats.govtHighSchools++;
+    }
+
+    if (isAided && isPrimary) {
+        stats.aidedPrimarySchools++;
+    }
+
+    if (isAided && isHigh) {
+        stats.aidedHighSchools++;
+    }
+});
+
 
 
     // =======================
