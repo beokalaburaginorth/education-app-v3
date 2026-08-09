@@ -1547,3 +1547,13 @@ window.searchSchoolByDISE = async function () {
   }
 
 };
+window.showBEOProfile = function () {
+    document.getElementById("content").innerHTML = `
+        <div class="beo-profile">
+            <img src="BEО_KLB(N).png" alt="BEO Photo">
+            <h2>BEO Kalaburagi North</h2>
+            <p><b>Block Education Officer</b></p>
+            <p>📞 Phone: XXXXX XXXXX</p>
+        </div>
+    `;
+};
