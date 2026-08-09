@@ -480,7 +480,12 @@ schoolsSnap.forEach((docSnap) => {
             legend: {
 
               position: "bottom"
-
+labels: {
+    font: {
+        size: 20,
+        weight: "bold"
+    }
+}
             }
 
           }
