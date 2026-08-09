@@ -1565,9 +1565,9 @@ window.showBEOProfile = function () {
                         height:140px !important;
                         object-fit:cover;
                         border-radius:50%;">
-            <h2>BEO KALABURAGI NORTH</h2>
-            <p><b>Block Education Officer</b></p>
-            <p>📞 Phone: XXXXX XXXXX</p>
+            <h2>Sri.Somashekhar Hanchinal</h2>
+            <p><b>Block Education Officer.Klb(n)</b></p>
+            <p>📞 Phone: 9448892043</p>
         </div>
     `;
 };
