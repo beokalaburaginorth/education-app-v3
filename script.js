@@ -67,53 +67,58 @@ schoolsSnap.forEach((docSnap) => {
 
     const data = docSnap.data();
 
-    const management = String(
-        data.management ||
-        data.MANAGEMENT ||
-        data["Management"] ||
-        ""
-    ).toLowerCase();
-
-    const schoolType = String(
-        data.schoolType ||
+    const type = String(
+        data.TYPE ||
         data.type ||
-        data["SCHOOL TYPE"] ||
-        data["School Type"] ||
+        data["TYPE"] ||
         ""
-    ).toLowerCase();
+    ).trim().toUpperCase();
 
-    const isGovt = management.includes("government") ||
-                   management.includes("govt");
+    const management = String(
+        data.MANAGEMENT ||
+        data.management ||
+        data["MANAGEMENT"] ||
+        ""
+    ).trim().toUpperCase();
 
-    const isAided = management.includes("aided");
-if (isGovt) {
-    stats.govtSchools++;
-}
 
-if (isAided) {
-    stats.aidedSchools++;
-}
-    const isPrimary = schoolType.includes("primary") ||
-                      schoolType.includes("lower");
+    // ==============================
+    // GOVERNMENT SCHOOLS
+    // ==============================
 
-    const isHigh = schoolType.includes("high") ||
-                   schoolType.includes("secondary");
-
-    if (isGovt && isPrimary) {
+    if (
+        management === "GOVERNMENT" &&
+        (type === "GHPS" || type === "LPS")
+    ) {
         stats.govtPrimarySchools++;
     }
 
-    if (isGovt && isHigh) {
+    if (
+        management === "GOVERNMENT" &&
+        type === "GHS"
+    ) {
         stats.govtHighSchools++;
     }
 
-    if (isAided && isPrimary) {
+
+    // ==============================
+    // AIDED SCHOOLS
+    // ==============================
+
+    if (
+        management === "AIDED" &&
+        type === "AIDED HPS"
+    ) {
         stats.aidedPrimarySchools++;
     }
 
-    if (isAided && isHigh) {
+    if (
+        management === "AIDED" &&
+        type === "AIDED HS"
+    ) {
         stats.aidedHighSchools++;
     }
+
 });
 
 
