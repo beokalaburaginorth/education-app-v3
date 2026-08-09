@@ -120,7 +120,12 @@ schoolsSnap.forEach((docSnap) => {
     }
 
 });
+// TOTAL GOVERNMENT & AIDED SCHOOLS
+stats.govtSchools =
+    stats.govtPrimarySchools + stats.govtHighSchools;
 
+stats.aidedSchools =
+    stats.aidedPrimarySchools + stats.aidedHighSchools;
 
 
     // =======================
