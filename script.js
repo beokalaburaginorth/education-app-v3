@@ -1330,7 +1330,7 @@ window.searchSchoolByDISE = async function () {
 
       const data = docSnap.data();
 
-      const schoolDise =
+    const schoolDise =
   data.diseNumber ||
   data.dise ||
   data.diseCode ||
@@ -1340,11 +1340,15 @@ window.searchSchoolByDISE = async function () {
   data["DISE CODE"] ||
   data["DISE Code"] ||
   "";
+
+if (String(schoolDise).trim() === dise) {
+  foundSchool = {
+    id: docSnap.id,
+    data: data
   };
 }
+});
 
-
-    });
 
     if (!foundSchool) {
 
