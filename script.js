@@ -486,7 +486,6 @@ schoolsSnap.forEach((docSnap) => {
         }
     }
 }
-     }
 });
 
 
