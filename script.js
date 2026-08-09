@@ -475,24 +475,17 @@ schoolsSnap.forEach((docSnap) => {
 
           maintainAspectRatio: false,
 
-          plugins: {
-
-            legend: {
-
-              position: "bottom",
-labels: {
-    font: {
-        size: 20,
-        weight: "bold"
+         plugins: {
+    legend: {
+        position: "bottom",
+        labels: {
+            font: {
+                size: 20,
+                weight: "bold"
+            }
+        }
     }
 }
-            }
-
-          }
-
-        }
-
-      }
     );
 
 
