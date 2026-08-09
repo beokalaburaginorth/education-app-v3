@@ -1075,13 +1075,12 @@ html += `
 
     html += `</div>`;
 
-    document.getElementById("schoolInfo").innerHTML = html;
-
+    document.getElementById("diseSearchResult").innerHTML = html;
   } catch (error) {
 
     console.error("Teacher PDF Error:", error);
 
-    document.getElementById("schoolInfo").innerHTML =
+  document.getElementById("diseSearchResult").innerHTML = 
       `<p style="color:red;">
         Error: ${error.message}
       </p>`;
