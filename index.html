@@ -103,7 +103,18 @@
 </header>
 
 <div id="content"></div>
+<!-- GALLERY FULLSCREEN VIEWER -->
+<div id="galleryViewer" class="gallery-viewer">
+  <span class="gallery-close" onclick="closeGalleryViewer()">&times;</span>
 
+  <button class="gallery-prev" onclick="galleryPrev()">&#10094;</button>
+
+  <img id="galleryViewerImage" src="" alt="Gallery Photo">
+
+  <button class="gallery-next" onclick="galleryNext()">&#10095;</button>
+
+  <div id="galleryViewerTitle" class="gallery-viewer-title"></div>
+</div>
 <footer>
     © 2026 BEO Kalaburagi North
 </footer>
