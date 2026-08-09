@@ -1216,4 +1216,251 @@ window.closeTeacherPDFModal = function () {
     modal.remove();
   }
 };
+// ======================================
+// SCHOOL DISE SEARCH
+// ======================================
+
+window.showDISESearch = async function () {
+
+  setContent(`
+    <div class="card">
+
+      <h2>🔎 School DISE Search</h2>
+
+      <p>11 digit DISE Code enter ಮಾಡಿ</p>
+
+      <div style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+      ">
+
+        <input
+          type="text"
+          id="diseSearchInput"
+          maxlength="11"
+          inputmode="numeric"
+          placeholder="Enter 11 digit DISE Code"
+          style="
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:8px;
+            flex:1;
+            min-width:220px;
+          "
+        >
+
+        <button
+          onclick="searchSchoolByDISE()"
+          style="
+            background:#0047a1;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:8px;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🔎 Search
+        </button>
+
+      </div>
+
+      <div id="diseSearchResult" style="margin-top:20px;"></div>
+
+    </div>
+  `);
+};
+
+
+// ======================================
+// SEARCH SCHOOL BY DISE
+// ======================================
+
+window.searchSchoolByDISE = async function () {
+
+  const input =
+    document.getElementById("diseSearchInput");
+
+  const result =
+    document.getElementById("diseSearchResult");
+
+  const dise =
+    input.value.trim();
+
+  if (!dise) {
+    result.innerHTML = `
+      <div class="card">
+        <p style="color:red;">
+          ⚠️ DISE Code enter ಮಾಡಿ.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  if (!/^\d{11}$/.test(dise)) {
+    result.innerHTML = `
+      <div class="card">
+        <p style="color:red;">
+          ❌ DISE Code 11 digits ಇರಬೇಕು.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  result.innerHTML = `
+    <div class="card">
+      <p>🔄 Searching school...</p>
+    </div>
+  `;
+
+  try {
+
+    const snapshot =
+      await getDocs(
+        collection(db, "schools")
+      );
+
+    let foundSchool = null;
+
+    snapshot.forEach((docSnap) => {
+
+      const data = docSnap.data();
+
+      const schoolDise =
+        data.dise ||
+        data.diseCode ||
+        data.udise ||
+        data.udiseCode ||
+        data["DISE"] ||
+        data["DISE CODE"] ||
+        data["DISE Code"] ||
+        "";
+
+      if (
+        String(schoolDise).trim() === dise
+      ) {
+        foundSchool = {
+          id: docSnap.id,
+          data: data
+        };
+      }
+
+    });
+
+    if (!foundSchool) {
+
+      result.innerHTML = `
+        <div class="card">
+          <h3>❌ School Not Found</h3>
+          <p>
+            DISE Code:
+            <b>${dise}</b>
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+    const data = foundSchool.data;
+
+    const schoolName =
+      data.schoolName ||
+      data.school ||
+      data["SCHOOL NAME"] ||
+      data["School Name"] ||
+      data.name ||
+      "School";
+
+    const cluster =
+      data.clusterName ||
+      data.cluster ||
+      data["CLUSTER NAME"] ||
+      data["Cluster Name"] ||
+      data.CLUSTER ||
+      "-";
+
+    const management =
+      data.management ||
+      data.schoolType ||
+      data.type ||
+      data["MANAGEMENT"] ||
+      data["Management"] ||
+      data["SCHOOL TYPE"] ||
+      "-";
+
+    result.innerHTML = `
+
+      <div style="
+        background:white;
+        border-radius:12px;
+        padding:18px;
+        box-shadow:0 2px 10px rgba(0,0,0,0.12);
+        border-left:5px solid #0047a1;
+      ">
+
+        <h2 style="color:#0047a1;">
+          🏫 ${schoolName}
+        </h2>
+
+        <p>
+          <b>DISE Code:</b>
+          ${dise}
+        </p>
+
+        <p>
+          <b>Cluster:</b>
+          ${cluster}
+        </p>
+
+        <p>
+          <b>Management:</b>
+          ${management}
+        </p>
+
+        <button
+          onclick="showSelectedSchool('${foundSchool.id}')"
+          style="
+            background:#0047a1;
+            color:white;
+            border:none;
+            padding:11px 18px;
+            border-radius:8px;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          🏫 Open School
+        </button>
+
+      </div>
+
+    `;
+
+  } catch (error) {
+
+    console.error(
+      "DISE Search Error:",
+      error
+    );
+
+    result.innerHTML = `
+      <div class="card">
+        <h3 style="color:red;">
+          ❌ Search Error
+        </h3>
+
+        <p>
+          ${error.message}
+        </p>
+      </div>
+    `;
+
+  }
+
+};
 
