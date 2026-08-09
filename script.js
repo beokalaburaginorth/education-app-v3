@@ -1557,3 +1557,17 @@ window.showBEOProfile = function () {
         </div>
     `;
 };
+window.showBEOProfile = function () {
+    document.getElementById("content").innerHTML = `
+        <div class="card" style="text-align:center; padding:30px;">
+            <img src="./BEO_KLB(N).png"
+                 style="width:140px !important;
+                        height:140px !important;
+                        object-fit:cover;
+                        border-radius:50%;">
+            <h2>BEO KALABURAGI NORTH</h2>
+            <p><b>Block Education Officer</b></p>
+            <p>📞 Phone: XXXXX XXXXX</p>
+        </div>
+    `;
+};
