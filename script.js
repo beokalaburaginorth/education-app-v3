@@ -208,10 +208,7 @@ if (isAided) {
               <span>Government Schools</span>
 
               <strong>
-                ${
-                  Number(stats.govtPrimarySchools) +
-                  Number(stats.govtHighSchools)
-                }
+               ${stats.govtSchools}
               </strong>
 
             </div>
@@ -230,10 +227,7 @@ if (isAided) {
               <span>Aided Schools</span>
 
               <strong>
-                ${
-                  Number(stats.aidedPrimarySchools) +
-                  Number(stats.aidedHighSchools)
-                }
+               ${stats.aidedSchools}
               </strong>
 
             </div>
