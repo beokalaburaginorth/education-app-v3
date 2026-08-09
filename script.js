@@ -49,6 +49,9 @@ window.showHome = async function () {
 );
 
 let stats = {
+  govtSchools: 0,
+  aidedSchools: 0,
+  
     govtPrimarySchools: 0,
     govtHighSchools: 0,
     aidedPrimarySchools: 0,
