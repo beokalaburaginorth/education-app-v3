@@ -593,143 +593,305 @@ stats.aidedSchools =
 
 window.showGallery = async function () {
 
-  setContent(`
-
-    <h2>🖼️ Gallery</h2>
-
-    <p>Loading gallery...</p>
-
-  `);
-
-
-  try {
-window.galleryImages = [];
-    const galleryRef =
-      collection(db, "gallery");
-
-    const snapshot =
-      await getDocs(galleryRef);
-
-
-    let html = `
-
-      <h2>🖼️ Gallery</h2>
-
-      <div class="dashboard">
-
-    `;
-
-
-    if (snapshot.empty) {
-
-      html += `
-
-        <div class="card">
-
-          <h3>No Gallery Images</h3>
-
-          <p>Gallery is empty.</p>
-
-        </div>
-
-      `;
-
-    } else {
-
-      snapshot.forEach((docSnap) => {
-
-        const data =
-          docSnap.data();
-
-
-        const imageUrl =
-
-          data.imageUrl ||
-
-          data.imageURL ||
-
-          data.url ||
-
-          data.photo ||
-
-          data.image;
-
-
-        const title =
-
-          data.title ||
-
-          data.name ||
-
-          "Gallery Image";
-
-
-        if (imageUrl) {
-
-          html += `
-
-            <div class="card">
-
-              <img
-
-                src="${imageUrl}"
-
-                alt="${title}"
-
-                style="
-                  width:100%;
-                  max-width:500px;
-                  border-radius:10px;
-                  display:block;
-                  margin:auto;
-                "
-
-              >
-
-              <h3>${title}</h3>
-
-            </div>
-
-          `;
-
-        }
-
-      });
-
-    }
-
-
-    html += `</div>`;
-
-
-    setContent(html);
-
-
-  } catch (error) {
-
-    console.error(
-      "Gallery Error:",
-      error
-    );
-
-
     setContent(`
-
-      <h2>🖼️ Gallery</h2>
-
-      <div class="card">
-
-        <h3>Gallery Error</h3>
-
-        <p>${error.message}</p>
-
-      </div>
-
+        <h2>🖼️ Gallery</h2>
+        <p>Loading gallery...</p>
     `);
 
-  }
+    try {
 
+        const galleryRef = collection(db, "gallery");
+        const snapshot = await getDocs(galleryRef);
+
+        let html = `
+            <h2>🖼️ Gallery</h2>
+            <div class="dashboard">
+        `;
+
+        if (snapshot.empty) {
+
+            html += `
+                <div class="card">
+                    <h3>No Gallery Images</h3>
+                    <p>Gallery is empty.</p>
+                </div>
+            `;
+
+        } else {
+
+            window.galleryItems = [];
+
+            snapshot.forEach((docSnap) => {
+
+                const data = docSnap.data();
+
+                const imageUrl =
+                    data.imageUrl ||
+                    data.imageURL ||
+                    data.url ||
+                    data.photo ||
+                    data.image ||
+                    "";
+
+                const title =
+                    data.title ||
+                    data.name ||
+                    "Gallery Image";
+
+                if (imageUrl) {
+
+                    window.galleryItems.push({
+                        imageUrl: imageUrl,
+                        title: title
+                    });
+
+                    const index =
+                        window.galleryItems.length - 1;
+
+                    html += `
+                        <div class="card">
+
+                            <img
+                                src="${imageUrl}"
+                                alt="${title}"
+                                style="
+                                    width:100%;
+                                    max-width:500px;
+                                    border-radius:10px;
+                                    display:block;
+                                    margin:auto;
+                                    cursor:pointer;
+                                "
+                                onclick="openGallery(${index})"
+                            >
+
+                            <h3>${title}</h3>
+
+                        </div>
+                    `;
+                }
+
+            });
+        }
+
+        html += `</div>`;
+
+        setContent(html);
+
+    } catch (error) {
+
+        console.error("Gallery Error:", error);
+
+        setContent(`
+            <div class="card">
+                <h3 style="color:red;">❌ Gallery Error</h3>
+                <p>${error.message}</p>
+            </div>
+        `);
+    }
 };
+window.openGallery = function(index) {
+
+    const item = window.galleryItems[index];
+
+    if (!item) return;
+
+    const modal = document.createElement("div");
+
+    modal.id = "galleryModal";
+
+    modal.style = `
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.95);
+        z-index:99999;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction:column;
+        padding:20px;
+    `;
+
+    modal.innerHTML = `
+
+        <button
+            onclick="closeGallery()"
+            style="
+                position:absolute;
+                top:20px;
+                right:25px;
+                font-size:30px;
+                background:red;
+                color:white;
+                border:none;
+                border-radius:50%;
+                width:50px;
+                height:50px;
+                cursor:pointer;
+            "
+        >×</button>
+
+        <button
+            onclick="previousGallery()"
+            style="
+                position:absolute;
+                left:20px;
+                font-size:40px;
+                background:#1976d2;
+                color:white;
+                border:none;
+                border-radius:50%;
+                width:55px;
+                height:55px;
+                cursor:pointer;
+            "
+        >‹</button>
+
+        <img
+            id="galleryFullImage"
+            src="${item.imageUrl}"
+            alt="${item.title}"
+            style="
+                max-width:90%;
+                max-height:75vh;
+                object-fit:contain;
+                border-radius:10px;
+                transition:transform 0.3s;
+            "
+        >
+
+        <button
+            onclick="nextGallery()"
+            style="
+                position:absolute;
+                right:20px;
+                font-size:40px;
+                background:#1976d2;
+                color:white;
+                border:none;
+                border-radius:50%;
+                width:55px;
+                height:55px;
+                cursor:pointer;
+            "
+        >›</button>
+
+        <h3
+            id="galleryFullTitle"
+            style="
+                color:white;
+                margin-top:15px;
+                text-align:center;
+            "
+        >${item.title}</h3>
+
+        <button
+            onclick="zoomGallery()"
+            style="
+                margin-top:10px;
+                padding:10px 20px;
+                background:white;
+                color:#111;
+                border:none;
+                border-radius:8px;
+                cursor:pointer;
+            "
+        >🔍 Zoom</button>
+    `;
+
+    document.body.appendChild(modal);
+
+    window.currentGalleryIndex = index;
+    window.galleryZoom = 1;
+};
+
+
+window.closeGallery = function() {
+
+    const modal = document.getElementById("galleryModal");
+
+    if (modal) {
+        modal.remove();
+    }
+};
+
+
+window.nextGallery = function() {
+
+    if (!window.galleryItems?.length) return;
+
+    window.currentGalleryIndex++;
+
+    if (
+        window.currentGalleryIndex >=
+        window.galleryItems.length
+    ) {
+        window.currentGalleryIndex = 0;
+    }
+
+    updateGalleryImage();
+};
+
+
+window.previousGallery = function() {
+
+    if (!window.galleryItems?.length) return;
+
+    window.currentGalleryIndex--;
+
+    if (window.currentGalleryIndex < 0) {
+
+        window.currentGalleryIndex =
+            window.galleryItems.length - 1;
+    }
+
+    updateGalleryImage();
+};
+
+
+window.updateGalleryImage = function() {
+
+    const item =
+        window.galleryItems[window.currentGalleryIndex];
+
+    if (!item) return;
+
+    const image =
+        document.getElementById("galleryFullImage");
+
+    const title =
+        document.getElementById("galleryFullTitle");
+
+    if (image) {
+        image.src = item.imageUrl;
+        image.style.transform = "scale(1)";
+    }
+
+    if (title) {
+        title.textContent = item.title;
+    }
+
+    window.galleryZoom = 1;
+};
+
+
+window.zoomGallery = function() {
+
+    const image =
+        document.getElementById("galleryFullImage");
+
+    if (!image) return;
+
+    window.galleryZoom += 0.25;
+
+    if (window.galleryZoom > 2) {
+        window.galleryZoom = 1;
+    }
+
+    image.style.transform =
+        `scale(${window.galleryZoom})`;
+};
+
 // =======================
 // CIRCULAR
 // =======================
