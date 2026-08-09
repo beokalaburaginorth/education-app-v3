@@ -113,11 +113,7 @@ schoolsSnap.forEach((docSnap) => {
     // TOTALS
     // =======================
 
-    const totalSchools =
-      Number(stats.govtPrimarySchools) +
-      Number(stats.govtHighSchools) +
-      Number(stats.aidedPrimarySchools) +
-      Number(stats.aidedHighSchools);
+   const totalSchools = schoolsSnap.size;
 
 
     const totalTeachers =
