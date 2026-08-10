@@ -670,3 +670,45 @@ margin:10px;
         margin-bottom: 14px;
     }
 }
+/* SCHOOL INFORMATION BOX */
+.school-selector-card {
+    max-width: 850px;
+    width: 90%;
+    margin: 20px auto;
+    padding: 25px 30px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+/* Labels */
+.school-selector-card label {
+    display: block;
+    font-size: 16px;
+    margin: 12px 0 6px;
+    color: #222;
+}
+
+/* Dropdowns */
+.school-selector-card select {
+    width: 100%;
+    max-width: 600px;
+    height: 42px;
+    padding: 8px 12px;
+    font-size: 15px;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .school-selector-card {
+        width: 94%;
+        padding: 18px;
+    }
+
+    .school-selector-card select {
+        max-width: 100%;
+    }
+}
