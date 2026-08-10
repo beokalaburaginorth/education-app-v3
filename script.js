@@ -1800,3 +1800,18 @@ document.querySelector(".menu")?.addEventListener("click", (e) => {
         side.style.display = "none";
     }
 });
+document.addEventListener("DOMContentLoaded", function () {
+    const side = document.getElementById("schoolSideMenu");
+
+    if (side) {
+        side.style.display = "block";
+    }
+
+    document.querySelectorAll(".menu button").forEach(function (button) {
+        button.addEventListener("click", function () {
+            if (side) {
+                side.style.display = "none";
+            }
+        });
+    });
+});
