@@ -610,3 +610,63 @@ margin:10px;
     top: 180px;
     z-index: 99999;
 }
+/* School Information - Improved Box */
+#schoolInfo .card {
+    max-width: 850px;
+    padding: 22px 28px;
+    margin: 20px auto;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* Heading */
+#schoolInfo h2 {
+    font-size: 28px;
+    margin-bottom: 22px;
+}
+
+/* Labels */
+#schoolInfo label {
+    display: inline-block;
+    width: 230px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+/* Dropdowns */
+#schoolInfo select {
+    width: 360px;
+    height: 42px;
+    padding: 6px 12px;
+    border: 1px solid #b8c7d9;
+    border-radius: 10px;
+    background: #f8fbff;
+    font-size: 16px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.08);
+    outline: none;
+}
+
+/* Dropdown focus */
+#schoolInfo select:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25,118,210,0.15);
+}
+
+/* Mobile size */
+@media (max-width: 600px) {
+    #schoolInfo .card {
+        padding: 16px;
+    }
+
+    #schoolInfo label {
+        width: 100%;
+        margin-bottom: 6px;
+    }
+
+    #schoolInfo select {
+        width: 100%;
+        margin-bottom: 14px;
+    }
+}
