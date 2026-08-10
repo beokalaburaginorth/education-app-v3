@@ -1783,23 +1783,9 @@ window.toggleSideGroup = function(groupId) {
     group.classList.toggle("open");
 };
 // School Side Menu visibility
-document.addEventListener("DOMContentLoaded", () => {
-    const side = document.getElementById("schoolSideMenu");
-    if (side) side.style.display = "none";
-});
 
-document.querySelector(".menu")?.addEventListener("click", (e) => {
-    const side = document.getElementById("schoolSideMenu");
-    const button = e.target.closest("button");
 
-    if (!side || !button) return;
 
-    if (button.textContent.includes("Schools")) {
-        side.style.display = "block";
-    } else {
-        side.style.display = "none";
-    }
-});
 document.addEventListener("DOMContentLoaded", function () {
     const side = document.getElementById("schoolSideMenu");
 
