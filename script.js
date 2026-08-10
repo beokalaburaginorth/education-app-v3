@@ -1785,27 +1785,6 @@ window.toggleSideGroup = function(groupId) {
 // School Side Menu visibility
 
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const side = document.getElementById("schoolSideMenu");
-
-    if (side) {
-        side.style.display = "block";
-    }
-
-    document.querySelectorAll(".menu button").forEach(function (button) {
-        button.addEventListener("click", function () {
-            if (side) {
-                side.style.display = "none";
-            }
-        });
-    });
-});
-document.querySelectorAll(".menu button").forEach(function(button) {
-    button.addEventListener("click", function() {
-        toggleSchoolSideMenu(false);
-    });
-});
 document.addEventListener("click", function(e) {
     const navButton = e.target.closest("nav.menu button");
     const sideMenu = document.getElementById("schoolSideMenu");
