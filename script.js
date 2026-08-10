@@ -1815,3 +1815,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+document.querySelectorAll(".menu button").forEach(function(button) {
+    button.addEventListener("click", function() {
+        toggleSchoolSideMenu(false);
+    });
+});
