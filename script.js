@@ -1002,7 +1002,14 @@ window.showCirculars = async function () {
 // STEP 4 - SCHOOL SELECTOR
 // Cluster → Government / Aided → School
 // ======================================
+window.toggleSchoolSideMenu = function(open) {
+    const side = document.getElementById("schoolSideMenu");
 
+    if (!side) return;
+
+    side.style.display = open ? "block" : "none";
+    side.setAttribute("aria-hidden", open ? "false" : "true");
+};
 window.showSchoolSelector = async function () {
 toggleSchoolSideMenu(false);
   setContent(`
