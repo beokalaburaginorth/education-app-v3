@@ -604,3 +604,9 @@ margin:10px;
     }
 
 }
+.school-side-menu {
+    position: fixed !important;
+    left: 15px;
+    top: 180px;
+    z-index: 99999;
+}
