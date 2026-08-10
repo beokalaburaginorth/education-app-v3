@@ -604,11 +604,14 @@ margin:10px;
     }
 
 }
-.school-side-menu {
-    position: fixed !important;
+school-side-menu {
+    position: fixed;
     left: 15px;
-    top: 180px;
-    z-index: 99999;
+    top: 330px;
+    z-index: 9999;
+    max-height: calc(100vh - 350px);
+    overflow-y: auto;
+}
 }
 /* School Information - Improved Box */
 #schoolInfo .card {
