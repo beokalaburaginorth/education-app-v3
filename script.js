@@ -1820,3 +1820,13 @@ document.querySelectorAll(".menu button").forEach(function(button) {
         toggleSchoolSideMenu(false);
     });
 });
+document.addEventListener("click", function(e) {
+    const navButton = e.target.closest("nav.menu button");
+    const sideMenu = document.getElementById("schoolSideMenu");
+
+    if (!navButton || !sideMenu) return;
+
+    sideMenu.style.setProperty("display", "none", "important");
+    sideMenu.classList.remove("open");
+    sideMenu.setAttribute("aria-hidden", "true");
+}, true);
