@@ -1015,7 +1015,7 @@ window.toggleSchoolSideMenu(false);
   setContent(`
     <h2>🏫 School Information</h2>
 
-    <div class="card">
+    <div class="card school-selector-card">
 
       <label><b>Select Cluster</b></label>
       <select id="clusterSelect" onchange="loadSchoolsByCluster()">
