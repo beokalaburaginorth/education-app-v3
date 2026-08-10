@@ -1773,3 +1773,12 @@ document.addEventListener("click", function(e) {
         };
     }
 });
+// SIDE MENU OPEN / CLOSE
+window.toggleSideGroup = function(groupId) {
+
+    const group = document.getElementById(groupId);
+
+    if (!group) return;
+
+    group.classList.toggle("open");
+};
