@@ -1011,7 +1011,7 @@ window.toggleSchoolSideMenu = function(open) {
     side.setAttribute("aria-hidden", open ? "false" : "true");
 };
 window.showSchoolSelector = async function () {
-toggleSchoolSideMenu(false);
+window.toggleSchoolSideMenu(false);
   setContent(`
     <h2>🏫 School Information</h2>
 
