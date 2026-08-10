@@ -1004,7 +1004,7 @@ window.showCirculars = async function () {
 // ======================================
 
 window.showSchoolSelector = async function () {
-
+toggleSchoolSideMenu(false);
   setContent(`
     <h2>🏫 School Information</h2>
 
