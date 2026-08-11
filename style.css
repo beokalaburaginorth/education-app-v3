@@ -716,20 +716,22 @@ margin:10px;
         max-width: 100%;
     }
 }
-/* ===== MOBILE SCHOOL SIDE MENU FIX ===== */
+/* ===== MOBILE SCHOOL SIDE MENU ===== */
 @media (max-width: 700px) {
 
     #schoolSideMenu {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
+        position: absolute !important;
 
-        width: calc(100% - 30px) !important;
-        margin: 15px auto 30px auto !important;
+        top: 440px !important;
+        left: 4% !important;
 
-        z-index: 10 !important;
+        width: 92% !important;
+        max-width: none !important;
+
+        margin: 0 !important;
         box-sizing: border-box !important;
+
+        z-index: 1000 !important;
     }
 
     #schoolSideMenu button {
