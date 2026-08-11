@@ -721,16 +721,12 @@ margin:10px;
 
     #schoolSideMenu {
         position: absolute !important;
-
-        top: 440px !important;
+        top: 680px !important;
         left: 4% !important;
-
         width: 92% !important;
         max-width: none !important;
-
         margin: 0 !important;
         box-sizing: border-box !important;
-
         z-index: 1000 !important;
     }
 
