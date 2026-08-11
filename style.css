@@ -716,23 +716,29 @@ margin:10px;
         max-width: 100%;
     }
 }
-/* ===== MOBILE SCHOOL SIDE MENU ===== */
+/* ===== FIX SCHOOL CATEGORIES POSITION ===== */
 @media (max-width: 700px) {
 
-    #schoolSideMenu {
-        position: absolute !important;
-        top: 680px !important;
-        left: 4% !important;
-        width: 92% !important;
-        max-width: none !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
-        z-index: 1000 !important;
-    }
+  #schoolSideMenu {
+    position: absolute !important;
 
-    #schoolSideMenu button {
-        width: 100% !important;
-        box-sizing: border-box !important;
-        margin: 7px 0 !important;
-    }
+    top: 1000px !important;
+    bottom: auto !important;
+    left: 4% !important;
+    right: auto !important;
+
+    width: 92% !important;
+    max-width: 92% !important;
+
+    margin: 0 !important;
+    transform: none !important;
+
+    z-index: 1000 !important;
+    box-sizing: border-box !important;
+  }
+
+  #schoolSideMenu button {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
 }
