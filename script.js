@@ -2363,18 +2363,18 @@ window.showCircularCategories = function () {
 
 
 // ==========================================
-// CIRCULAR LIST PLACEHOLDER
+// CATEGORY → CIRCULAR PDF LIST
 // ==========================================
 
-window.showCircularList = function (category) {
+window.showCircularList = async function (category) {
 
     setContent(`
-        <div class="card" style="
+        <div style="
             max-width:900px;
             margin:20px auto;
-            padding:25px;
+            padding:20px;
             background:white;
-            border-radius:15px;
+            border-radius:12px;
             box-shadow:0 5px 18px rgba(0,0,0,0.15);
         ">
 
@@ -2395,12 +2395,139 @@ window.showCircularList = function (category) {
                 📢 ${category} Circulars
             </h2>
 
-            <hr>
-
-            <p style="color:#777;">
-                No circulars available in this category.
-            </p>
+            <div id="categoryCircularList">
+                <p>⏳ Loading Circulars...</p>
+            </div>
 
         </div>
     `);
+
+    try {
+
+        const circularRef = collection(db, "circulars");
+        const snapshot = await getDocs(circularRef);
+
+        let html = "";
+
+        snapshot.forEach((circularDoc) => {
+
+            const data = circularDoc.data();
+
+            const circularCategory =
+                data.category ||
+                data.Category ||
+                data["Circular Category"] ||
+                "";
+
+            // Category match
+            if (
+                circularCategory.toLowerCase().trim() !==
+                category.toLowerCase().trim()
+            ) {
+                return;
+            }
+
+            const title =
+                data.title ||
+                data.name ||
+                data.circularTitle ||
+                data["Circular Title"] ||
+                "Circular";
+
+            const pdfUrl =
+                data.pdfUrl ||
+                data.url ||
+                data.fileUrl ||
+                data.pdf ||
+                data.link ||
+                "";
+
+            if (!pdfUrl) return;
+
+            html += `
+                <div style="
+                    background:#f5f7fa;
+                    border:1px solid #ddd;
+                    border-radius:8px;
+                    padding:15px;
+                    margin-top:12px;
+                ">
+
+                    <div style="
+                        font-weight:bold;
+                        font-size:17px;
+                        color:#0047a1;
+                        margin-bottom:12px;
+                    ">
+                        📄 ${title}
+                    </div>
+
+                    <a href="${pdfUrl}"
+                       target="_blank"
+                       style="
+                           display:inline-block;
+                           padding:9px 16px;
+                           background:#1976d2;
+                           color:white;
+                           text-decoration:none;
+                           border-radius:6px;
+                           margin-right:8px;
+                       ">
+                        👁️ View PDF
+                    </a>
+
+                    <a href="${pdfUrl}"
+                       download
+                       style="
+                           display:inline-block;
+                           padding:9px 16px;
+                           background:#198754;
+                           color:white;
+                           text-decoration:none;
+                           border-radius:6px;
+                       ">
+                        ⬇️ Download PDF
+                    </a>
+
+                </div>
+            `;
+        });
+
+        if (!html) {
+
+            html = `
+                <div style="
+                    padding:20px;
+                    text-align:center;
+                    color:#777;
+                ">
+                    📄 No circulars available in this category.
+                </div>
+            `;
+
+        }
+
+        const listBox =
+            document.getElementById("categoryCircularList");
+
+        if (listBox) {
+            listBox.innerHTML = html;
+        }
+
+    } catch (error) {
+
+        console.error("Category Circular Error:", error);
+
+        const listBox =
+            document.getElementById("categoryCircularList");
+
+        if (listBox) {
+            listBox.innerHTML = `
+                <p style="color:red;">
+                    Circular loading error:
+                    ${error.message}
+                </p>
+            `;
+        }
+    }
 };
