@@ -1331,6 +1331,32 @@ window.showSelectedSchool = async function (schoolId) {
         "
     >
         👨‍🏫 Teacher List
+        html += `
+<div style="
+    margin-top:15px;
+    padding:15px;
+    background:#f5f7fa;
+    border-radius:8px;
+    text-align:center;
+">
+    <button
+        onclick="viewTeachers('${schoolId}')"
+        style="
+            background:#0047a1;
+            color:white;
+            border:none;
+            padding:10px 18px;
+            border-radius:6px;
+            cursor:pointer;
+            font-weight:bold;
+        ">
+        👨‍🏫 View Teachers
+    </button>
+
+    <div id="teacherList" style="margin-top:15px;"></div>
+</div>
+`;
+
     </button>
 </div>
 </div>
