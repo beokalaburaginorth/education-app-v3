@@ -2276,3 +2276,130 @@ window.importUnaidedExcel = async function (file) {
         );
     }
 };
+// ==========================================
+// CIRCULAR CATEGORIES
+// ==========================================
+
+window.showCircularCategories = function () {
+
+    setContent(`
+        <div class="card" style="
+            max-width:900px;
+            margin:20px auto;
+            padding:25px;
+            background:white;
+            border-radius:15px;
+            box-shadow:0 5px 18px rgba(0,0,0,0.15);
+        ">
+
+            <h2 style="
+                color:#0047a1;
+                text-align:center;
+                margin-bottom:25px;
+            ">
+                📢 CIRCULAR CATEGORIES
+            </h2>
+
+            <div style="
+                display:grid;
+                grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+                gap:15px;
+            ">
+
+                <button onclick="showCircularList('Department')"
+                    style="padding:20px;text-align:left;font-size:17px;
+                    border:0;border-radius:10px;background:#1976d2;color:white;
+                    cursor:pointer;">
+                    🏛️ Department Circulars
+                </button>
+
+                <button onclick="showCircularList('School Education')"
+                    style="padding:20px;text-align:left;font-size:17px;
+                    border:0;border-radius:10px;background:#1976d2;color:white;
+                    cursor:pointer;">
+                    🏫 School Education Circulars
+                </button>
+
+                <button onclick="showCircularList('Teacher Related')"
+                    style="padding:20px;text-align:left;font-size:17px;
+                    border:0;border-radius:10px;background:#1976d2;color:white;
+                    cursor:pointer;">
+                    👨‍🏫 Teacher Related Circulars
+                </button>
+
+                <button onclick="showCircularList('Academic')"
+                    style="padding:20px;text-align:left;font-size:17px;
+                    border:0;border-radius:10px;background:#1976d2;color:white;
+                    cursor:pointer;">
+                    📚 Academic Circulars
+                </button>
+
+                <button onclick="showCircularList('Financial')"
+                    style="padding:20px;text-align:left;font-size:17px;
+                    border:0;border-radius:10px;background:#1976d2;color:white;
+                    cursor:pointer;">
+                    💰 Financial / Grants Circulars
+                </button>
+
+                <button onclick="showCircularList('Examination')"
+                    style="padding:20px;text-align:left;font-size:17px;
+                    border:0;border-radius:10px;background:#1976d2;color:white;
+                    cursor:pointer;">
+                    📝 Examination Circulars
+                </button>
+
+                <button onclick="showCircularList('General')"
+                    style="padding:20px;text-align:left;font-size:17px;
+                    border:0;border-radius:10px;background:#1976d2;color:white;
+                    cursor:pointer;">
+                    📅 General Circulars
+                </button>
+
+            </div>
+        </div>
+    `);
+};
+
+
+// ==========================================
+// CIRCULAR LIST PLACEHOLDER
+// ==========================================
+
+window.showCircularList = function (category) {
+
+    setContent(`
+        <div class="card" style="
+            max-width:900px;
+            margin:20px auto;
+            padding:25px;
+            background:white;
+            border-radius:15px;
+            box-shadow:0 5px 18px rgba(0,0,0,0.15);
+        ">
+
+            <button onclick="showCircularCategories()"
+                style="
+                    padding:10px 18px;
+                    border:0;
+                    border-radius:7px;
+                    background:#1976d2;
+                    color:white;
+                    cursor:pointer;
+                    margin-bottom:15px;
+                ">
+                ⬅️ Back to Categories
+            </button>
+
+            <h2 style="color:#0047a1;">
+                📢 ${category} Circulars
+            </h2>
+
+            <hr>
+
+            <p style="color:#777;">
+                No circulars available in this category.
+            </p>
+
+        </div>
+    `);
+};
