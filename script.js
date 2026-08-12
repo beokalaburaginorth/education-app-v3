@@ -1356,7 +1356,7 @@ window.showSelectedSchool = async function (schoolId) {
     <div id="teacherList" style="margin-top:15px;"></div>
 </div>
 `;
-
+      
 html += `
 <div style="
     margin-top:12px;
