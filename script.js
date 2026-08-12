@@ -1026,20 +1026,20 @@ window.toggleSchoolSideMenu(false);
       <br><br>
 
       <label><b>Government Schools</b></label>
-      <select id="govtSchoolSelect" onchange="showSelectedSchool(this.value)">
+      <select id="govtSchoolSelect" onchange="showSchoolTeachers(this.value)">
         <option value="">-- Select Government School --</option>
       </select>
 
       <br><br>
 
       <label><b>Aided Schools</b></label>
-      <select id="aidedSchoolSelect">
+      <select id="aidedSchoolSelect" onchange="showSchoolTeachers(this.value)">
         <option value="">-- Select Aided School --</option>
       </select>
 <br><br>
 
 <label><b>Unaided Schools</b></label>
-<select id="unaidedSchoolSelect">
+<select id="unaidedSchoolSelect" onchange="showSchoolTeachers(this.value)">
     <option value="">-- Select Unaided School --</option>
 </select>
 <br><br>
