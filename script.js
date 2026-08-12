@@ -1042,6 +1042,19 @@ window.toggleSchoolSideMenu(false);
 <select id="unaidedSchoolSelect">
     <option value="">-- Select Unaided School --</option>
 </select>
+<br><br>
+
+<label>
+    <b>Import Unaided Schools</b>
+</label>
+
+<br>
+
+<input
+    type="file"
+    accept=".xlsx,.xls"
+    onchange="importUnaidedExcel(this.files[0])"
+>
       <br><br>
 
       <div id="schoolInfo"></div>
