@@ -1257,6 +1257,147 @@ if (
         `;
     }
 };
+// ==========================================
+// SCHOOL SELECT → TEACHER LIST
+// ==========================================
+
+window.showSchoolTeachers = async function(schoolId) {
+
+    const teacherBox = document.getElementById("schoolInfo");
+
+    if (!schoolId) {
+        if (teacherBox) teacherBox.innerHTML = "";
+        return;
+    }
+
+    if (teacherBox) {
+        teacherBox.innerHTML =
+            "<p style='color:#0047a1;font-weight:bold;'>⏳ Loading Teachers...</p>";
+    }
+
+    try {
+
+        // School information
+        const schoolRef = doc(db, "schools", schoolId);
+        const schoolSnap = await getDoc(schoolRef);
+
+        let schoolName = "School";
+
+        if (schoolSnap.exists()) {
+            const schoolData = schoolSnap.data();
+
+            schoolName =
+                schoolData.schoolName ||
+                schoolData.school ||
+                schoolData["SCHOOL NAME"] ||
+                schoolData["School Name"] ||
+                schoolData.name ||
+                "School";
+        }
+
+        // Teacher collection
+        const teachersRef = collection(db, "teachers");
+
+        const teacherQuery = query(
+            teachersRef,
+            where("schoolId", "==", schoolId)
+        );
+
+        const teacherSnap = await getDocs(teacherQuery);
+
+        let html = `
+            <div style="
+                margin-top:15px;
+                background:#f5f7fa;
+                border:1px solid #ddd;
+                border-radius:8px;
+                padding:15px;
+            ">
+
+            <h3 style="color:#0047a1;margin-top:0;">
+                👨‍🏫 ${schoolName} - Teachers List
+            </h3>
+        `;
+
+        if (teacherSnap.empty) {
+
+            html += `
+                <p style="color:#777;">
+                    Teacher data not available for this school.
+                </p>
+            `;
+
+        } else {
+
+            let i = 1;
+
+            teacherSnap.forEach((teacherDoc) => {
+
+                const t = teacherDoc.data();
+
+                const teacherName =
+                    t.teacherName ||
+                    t.name ||
+                    t["Teacher Name"] ||
+                    "Teacher";
+
+                const designation =
+                    t.designation ||
+                    t["Designation"] ||
+                    "";
+
+                const kgid =
+                    t.kgid ||
+                    t.KGID ||
+                    t["KGID"] ||
+                    "";
+
+                html += `
+                    <div style="
+                        background:white;
+                        border:1px solid #ddd;
+                        border-radius:6px;
+                        padding:12px;
+                        margin-top:10px;
+                    ">
+
+                        <b>${i}. 👨‍🏫 ${teacherName}</b>
+
+                        <div style="margin-top:5px;">
+                            ${designation ? "Designation: " + designation : ""}
+                        </div>
+
+                        <div style="margin-top:5px;">
+                            ${kgid ? "KGID: " + kgid : ""}
+                        </div>
+
+                    </div>
+                `;
+
+                i++;
+            });
+        }
+
+        html += `</div>`;
+
+        if (teacherBox) {
+            teacherBox.innerHTML = html;
+        }
+
+    } catch (error) {
+
+        console.error("Teacher List Error:", error);
+
+        if (teacherBox) {
+            teacherBox.innerHTML = `
+                <p style="color:red;">
+                    Teacher data loading error:
+                    ${error.message}
+                </p>
+            `;
+        }
+    }
+};
 
 // ======================================
 // STEP 4C - SCHOOL SELECT → TEACHER PDF
