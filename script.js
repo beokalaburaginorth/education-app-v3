@@ -1357,10 +1357,6 @@ window.showSelectedSchool = async function (schoolId) {
 </div>
 `;
 
-    </button>
-</div>
-</div>
-`;
 html += `
 <div style="
     margin-top:12px;
