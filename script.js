@@ -1102,98 +1102,142 @@ window.toggleSchoolSideMenu(false);
 
 window.loadSchoolsByCluster = async function () {
 
-  const selectedCluster =
-    document.getElementById("clusterSelect").value;
+    const selectedCluster =
+        document.getElementById("clusterSelect").value;
 
-  const govtSelect =
-    document.getElementById("govtSchoolSelect");
+    const govtSelect =
+        document.getElementById("govtSchoolSelect");
 
-  const aidedSelect =
-    document.getElementById("aidedSchoolSelect");
+    const aidedSelect =
+        document.getElementById("aidedSchoolSelect");
 
-  govtSelect.innerHTML =
-    `<option value="">-- Select Government School --</option>`;
+    const unaidedSelect =
+        document.getElementById("unaidedSchoolSelect");
 
-  aidedSelect.innerHTML =
-    `<option value="">-- Select Aided School --</option>`;
 
-  if (!selectedCluster) return;
+    // Reset all school lists
+    govtSelect.innerHTML =
+        `<option value="">-- Select Government School --</option>`;
 
-  try {
+    aidedSelect.innerHTML =
+        `<option value="">-- Select Aided School --</option>`;
 
-    const snapshot = await getDocs(
-      collection(db, "schools")
-    );
+    unaidedSelect.innerHTML =
+        `<option value="">-- Select Unaided School --</option>`;
 
-    snapshot.forEach((docSnap) => {
 
-      const data = docSnap.data();
+    if (!selectedCluster) return;
 
-      const cluster =
-        data.clusterName ||
-        data.cluster ||
-        data["CLUSTER NAME"] ||
-        data["Cluster Name"] ||
-        data.CLUSTER ||
-        "";
 
-      if (
-        String(cluster).trim().toLowerCase() !==
-        selectedCluster.trim().toLowerCase()
-      ) {
-        return;
-      }
+    try {
 
-      const schoolName =
-        data.schoolName ||
-        data.school ||
-        data["SCHOOL NAME"] ||
-        data["School Name"] ||
-        data.name ||
-        "";
+        const snapshot = await getDocs(
+            collection(db, "schools")
+        );
 
-      const management =
-        data.management ||
-        data.schoolType ||
-        data.type ||
-        data["MANAGEMENT"] ||
-        data["Management"] ||
-        data["SCHOOL TYPE"] ||
-        "";
 
-      if (!schoolName) return;
+        snapshot.forEach((docSnap) => {
 
-      const option = document.createElement("option");
+            const data = docSnap.data();
 
-      option.value = docSnap.id;
-      option.textContent = schoolName;
 
-      const managementText =
-        String(management).toLowerCase();
+            // Cluster name
+            const cluster =
+                data.clusterName ||
+                data.cluster ||
+                data["CLUSTER NAME"] ||
+                data["Cluster Name"] ||
+                data.CLUSTER ||
+                "";
 
-      if (
-        managementText.includes("aided")
-      ) {
 
-        aidedSelect.appendChild(option);
+            // Check selected cluster
+            if (
+                String(cluster).trim().toLowerCase() !==
+                String(selectedCluster).trim().toLowerCase()
+            ) {
+                return;
+            }
 
-      } else {
 
-        govtSelect.appendChild(option);
-      }
+            // School name
+            const schoolName =
+                data.schoolName ||
+                data.school ||
+                data["SCHOOL NAME"] ||
+                data["School Name"] ||
+                data.name ||
+                "";
 
-    });
 
-  } catch (error) {
+            // Management / School Type
+            const management =
+                data.management ||
+                data.schoolType ||
+                data.type ||
+                data["MANAGEMENT"] ||
+                data["Management"] ||
+                data["SCHOOL TYPE"] ||
+                "";
 
-    console.error("School filter error:", error);
 
-    document.getElementById("schoolInfo").innerHTML =
-      `<p style="color:red;">
-        School loading error: ${error.message}
-      </p>`;
-  }
+            if (!schoolName) return;
+
+
+            // Create option
+            const option =
+                document.createElement("option");
+
+            option.value = docSnap.id;
+            option.textContent = schoolName;
+
+
+            const managementText =
+                String(management).trim().toLowerCase();
+
+
+            // UNAIDED
+            if (managementText.includes("unaided")) {
+
+                unaidedSelect.appendChild(option);
+
+            }
+
+            // AIDED
+            else if (managementText.includes("aided")) {
+
+                aidedSelect.appendChild(option);
+
+            }
+
+            // GOVERNMENT
+            else {
+
+                govtSelect.appendChild(option);
+
+            }
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "School filter error:",
+            error
+        );
+
+
+        document.getElementById(
+            "schoolInfo"
+        ).innerHTML = `
+            <p style="color:red;">
+                School loading error: ${error.message}
+            </p>
+        `;
+    }
 };
+
 // ======================================
 // STEP 4C - SCHOOL SELECT → TEACHER PDF
 // ======================================
