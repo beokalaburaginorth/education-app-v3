@@ -5,9 +5,9 @@ import {
     getDoc,
     collection,
     getDocs,
+    writeBatch,
     query,
-    where,
-    writeBatch
+    where
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 function setContent(html) {
