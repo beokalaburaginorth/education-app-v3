@@ -130,11 +130,11 @@ window.uploadCircular = async function () {
 
     const file = document.getElementById("circularFile").files[0];
     const title = document.getElementById("circularTitle").value;
-
-    if (!file || !title) {
-        alert("Please select PDF and enter title.");
-        return;
-    }
+const category = document.getElementById("circularCategory").value;
+   if (!file || !title || !category) {
+    alert("Please select PDF, enter title and select category.");
+    return;
+}
 
     const formData = new FormData();
     formData.append("file", file);
@@ -153,10 +153,11 @@ window.uploadCircular = async function () {
         const data = await response.json();
 
         await addDoc(collection(db, "circulars"), {
-            title: title,
-            pdf: data.secure_url,
-            createdAt: new Date().toISOString()
-        });
+    category: category,
+    title: title,
+    pdf: data.secure_url,
+    createdAt: new Date().toISOString()
+});
 
         alert("✅ Circular uploaded successfully!");
 
