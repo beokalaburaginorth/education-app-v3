@@ -6,7 +6,8 @@ import {
     addDoc,
     deleteDoc,
     doc
-} from "firebase/firestore";
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
 const CLOUD_NAME = "ycyleyq2";
 const UPLOAD_PRESET = "beo_gallery";
 
