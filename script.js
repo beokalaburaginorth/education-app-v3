@@ -1392,6 +1392,83 @@ html += `
       </p>`;
   }
 };
+window.viewTeachers = async function (schoolId) {
+
+    const teacherList = document.getElementById("teacherList");
+
+    if (!teacherList) return;
+
+    teacherList.innerHTML = `
+        <p style="color:#0047a1;">
+            ⏳ Loading teacher data...
+        </p>
+    `;
+
+    try {
+
+        const teachersRef = collection(db, "teachers");
+
+        const q = query(
+            teachersRef,
+            where("schoolId", "==", schoolId)
+        );
+
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+
+            teacherList.innerHTML = `
+                <div style="
+                    padding:12px;
+                    background:#fff3cd;
+                    border-radius:6px;
+                ">
+                    👨‍🏫 Teacher data is not available yet for this school.
+                </div>
+            `;
+
+            return;
+        }
+
+        let html = `
+            <h4 style="color:#0047a1;">
+                👨‍🏫 Teacher List
+            </h4>
+        `;
+
+        snapshot.forEach((docSnap) => {
+
+            const teacher = docSnap.data();
+
+            html += `
+                <div style="
+                    padding:10px;
+                    margin-top:8px;
+                    background:white;
+                    border:1px solid #ddd;
+                    border-radius:6px;
+                ">
+                    <b>${teacher.teacherName || "Teacher Name"}</b><br>
+                    KGID: ${teacher.kgid || "-"}<br>
+                    Designation: ${teacher.designation || "-"}
+                </div>
+            `;
+        });
+
+        teacherList.innerHTML = html;
+
+    } catch (error) {
+
+        console.error("Teacher loading error:", error);
+
+        teacherList.innerHTML = `
+            <p style="color:red;">
+                Teacher data loading error.
+            </p>
+        `;
+    }
+};
+
 // ======================================
 // TEACHER PDF MODAL
 // ======================================
