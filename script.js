@@ -2477,17 +2477,18 @@ window.showCircularList = async function (category) {
                     </a>
 
                     <a href="${pdfUrl}"
-                       download
-                       style="
-                           display:inline-block;
-                           padding:9px 16px;
-                           background:#198754;
-                           color:white;
-                           text-decoration:none;
-                           border-radius:6px;
-                       ">
-                        ⬇️ Download PDF
-                    </a>
+   target="_blank"
+   style="
+      display:inline-block;
+      padding:9px 16px;
+      background:#1976d2;
+      color:white;
+      text-decoration:none;
+      border-radius:6px;
+      margin-right:8px;
+   ">
+   👁️ View PDF
+</a>
 
                 </div>
             `;
