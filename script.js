@@ -1,10 +1,11 @@
 import { db } from "./firebase.js";
 
 import {
-  doc,
-  getDoc,
-  collection,
-  getDocs
+    doc,
+    getDoc,
+    collection,
+    getDocs,
+    writeBatch
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 function setContent(html) {
@@ -1851,3 +1852,166 @@ document.addEventListener("click", function(e) {
     sideMenu.classList.remove("open");
     sideMenu.setAttribute("aria-hidden", "true");
 }, true);
+// =====================================================
+// ONE-TIME UNAIDED EXCEL -> FIRESTORE IMPORT
+// =====================================================
+
+window.importUnaidedExcel = async function (file) {
+
+    if (!file) {
+        alert("Please select unaided.xlsx file");
+        return;
+    }
+
+    try {
+
+        // Load SheetJS
+        if (!window.XLSX) {
+
+            await new Promise((resolve, reject) => {
+
+                const script = document.createElement("script");
+
+                script.src =
+                    "https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js";
+
+                script.onload = resolve;
+                script.onerror = reject;
+
+                document.head.appendChild(script);
+            });
+        }
+
+
+        // Read Excel file
+        const arrayBuffer = await file.arrayBuffer();
+
+        const workbook =
+            XLSX.read(arrayBuffer, {
+                type: "array"
+            });
+
+        const sheetName =
+            workbook.SheetNames[0];
+
+        const sheet =
+            workbook.Sheets[sheetName];
+
+        const rows =
+            XLSX.utils.sheet_to_json(
+                sheet,
+                {
+                    header: 1,
+                    defval: ""
+                }
+            );
+
+
+        // Your Excel has header on second row
+        const dataRows = rows.slice(2);
+
+
+        let schools = [];
+
+
+        dataRows.forEach((row) => {
+
+            const clusterName =
+                String(row[1] || "").trim();
+
+            const schoolName =
+                String(row[2] || "").trim();
+
+            const diseNumber =
+                String(row[3] || "")
+                    .trim()
+                    .replace(/\.0$/, "");
+
+            const medium =
+                String(row[4] || "").trim();
+
+            const schoolType =
+                String(row[6] || "").trim();
+
+
+            if (!schoolName) return;
+
+
+            schools.push({
+                clusterName: clusterName,
+                schoolName: schoolName,
+                diseNumber: diseNumber,
+                medium: medium,
+                management: "Unaided",
+                schoolType: schoolType
+            });
+
+        });
+
+
+        if (schools.length === 0) {
+
+            alert("❌ No school data found in Excel.");
+            return;
+        }
+
+
+        // Firestore batch
+        const batch = writeBatch(db);
+
+
+        schools.forEach((school) => {
+
+            const schoolId =
+                "unaided_" +
+                (
+                    school.diseNumber ||
+                    crypto.randomUUID()
+                );
+
+
+            const schoolRef =
+                doc(db, "schools", schoolId);
+
+
+            batch.set(
+                schoolRef,
+                school,
+                {
+                    merge: true
+                }
+            );
+
+        });
+
+
+        // Save all schools
+        await batch.commit();
+
+
+        alert(
+            "✅ " +
+            schools.length +
+            " Unaided Schools successfully added to Firestore!"
+        );
+
+
+        console.log(
+            "Unaided schools imported:",
+            schools
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Unaided Excel import error:",
+            error
+        );
+
+        alert(
+            "❌ Import failed: " +
+            error.message
+        );
+    }
+};
