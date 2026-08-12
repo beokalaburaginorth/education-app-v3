@@ -60,7 +60,17 @@ window.adminLogin = function () {
 <h3>Circular Upload</h3>
 
 <input type="text" id="circularTitle" placeholder="Circular Title"><br><br>
-
+<select id="circularCategory">
+    <option value="">Select Circular Category</option>
+    <option value="Department Circulars">🏛️ Department Circulars</option>
+    <option value="School Education Circulars">🏫 School Education Circulars</option>
+    <option value="Teacher Related Circulars">👨‍🏫 Teacher Related Circulars</option>
+    <option value="Academic Circulars">📚 Academic Circulars</option>
+    <option value="Financial / Grants Circulars">💰 Financial / Grants Circulars</option>
+    <option value="Examination Circulars">📝 Examination Circulars</option>
+    <option value="General Circulars">📅 General Circulars</option>
+</select>
+<br><br>
 <input type="file" id="circularFile" accept=".pdf"><br><br>
 
 <button onclick="uploadCircular()">Upload Circular</button>
