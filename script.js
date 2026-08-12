@@ -900,7 +900,8 @@ window.zoomGallery = function() {
 // =======================
 
 window.showCirculars = async function () {
-
+ showCircularCategories();
+    return;
   setContent(`
     <h2>📢 Circulars</h2>
     <p>Loading circulars...</p>
