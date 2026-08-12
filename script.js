@@ -1166,12 +1166,18 @@ window.loadSchoolsByCluster = async function () {
 
 
             // Check selected cluster
-            if (
-                String(cluster).trim().toLowerCase() !==
-                String(selectedCluster).trim().toLowerCase()
-            ) {
-                return;
-            }
+            const normalizeCluster = (value) =>
+    String(value || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLowerCase();
+
+if (
+    normalizeCluster(cluster) !==
+    normalizeCluster(selectedCluster)
+) {
+    return;
+}
 
 
             // School name
