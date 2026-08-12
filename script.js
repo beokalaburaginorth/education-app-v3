@@ -1318,20 +1318,20 @@ window.showSelectedSchool = async function (schoolId) {
         👨‍🏫 ${schoolName} - Teacher List
     </b>
 
-    <button
-        onclick="alert('Teacher data is not available yet for this school.')"
-        style="
-            background:#0047a1;
-            color:white;
-            border:none;
-            padding:9px 16px;
-            border-radius:6px;
-            cursor:pointer;
-            font-weight:bold;
-        "
-    >
-        👨‍🏫 Teacher List
-        html += `
+   <button
+    onclick="alert('Teacher data is not available yet for this school.')"
+    style="
+        background:#0047a1;
+        color:white;
+        border:none;
+        padding:9px 16px;
+        border-radius:6px;
+        cursor:pointer;
+        font-weight:bold;
+    "
+>
+    👨‍🏫 Teacher List
+</button>
 <div style="
     margin-top:15px;
     padding:15px;
