@@ -1035,7 +1035,12 @@ window.toggleSchoolSideMenu(false);
       <select id="aidedSchoolSelect">
         <option value="">-- Select Aided School --</option>
       </select>
+<br><br>
 
+<label><b>Unaided Schools</b></label>
+<select id="unaidedSchoolSelect">
+    <option value="">-- Select Unaided School --</option>
+</select>
       <br><br>
 
       <div id="schoolInfo"></div>
