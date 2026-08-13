@@ -1,13 +1,11 @@
 import { db } from "./firebase.js";
 
 import {
-    doc,
-    getDoc,
-    collection,
-    getDocs,
-    writeBatch,
-    query,
-    where
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 function setContent(html) {
