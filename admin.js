@@ -263,6 +263,7 @@ window.showManageCirculars = async function () {
 
 };
 window.deleteCircular = async function(id) {
+   console.log("DELETE ID:", id); 
     const ok = confirm("Are you sure you want to delete this circular?");
     if (!ok) return;
 
