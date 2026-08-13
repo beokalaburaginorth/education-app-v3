@@ -1,12 +1,13 @@
 import { db } from "./firebase.js";
 
 import {
-    collection,
-    getDocs,
-    addDoc,
-    deleteDoc,
-    doc
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  db,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc
+} from "./firebase.js";
 
 const CLOUD_NAME = "ycyleyq2";
 const UPLOAD_PRESET = "beo_gallery";
